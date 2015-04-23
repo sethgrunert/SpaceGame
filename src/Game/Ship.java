@@ -109,8 +109,7 @@ public class Ship {
 			mass+=newMod.getMass();
 			health+=newMod.getHealth();
 			healthRemaining=health;
-			if(newMod.getDamageReduction()>damageReduction)
-				damageReduction=newMod.getDamageReduction();
+			damageReduction+=newMod.getDamageReduction();
 			thrust+=newMod.getThrust();
 			powerCap+=newMod.getPowerCap();
 			powerRate+=newMod.getPower();

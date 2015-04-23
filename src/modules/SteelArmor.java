@@ -6,7 +6,7 @@ public class SteelArmor extends Armor{
 		super(size);
 		mass = size*10;
 		health = size*6;
-		damageReduction = 1.0*Math.sqrt(size);
+		damageReduction = 1.0*size;
 	}
 	
 }

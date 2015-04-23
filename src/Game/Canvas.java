@@ -12,12 +12,7 @@ import javax.swing.JPanel;
 public class Canvas extends JPanel {
 	
 	public Canvas(){
-		setBackground(Color.WHITE);
-		
-		/*addMouseListener(new MouseInput());
-		addMouseMotionListener(new MouseInput());
-		this.addMouseWheelListener(new MouseInput());*/
-		
+		setBackground(Color.WHITE);		
 	}
 	
 	/**
@@ -30,7 +25,6 @@ public class Canvas extends JPanel {
 		g2d.setColor(Color.BLACK);
 		MainThread.map.draw((int)MainThread.viewX, (int)MainThread.viewY, g2d);
 		MainThread.playerShip.draw(g2d);
-		
 		repaint();
 	}
 }
