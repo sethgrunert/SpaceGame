@@ -75,7 +75,7 @@ public class Ship {
 		if(clockwise)
 			faceing+=spin;
 		else
-			faceing-=spin;
+			faceing-=spin;//test
 		
 		if(faceing<0)
 			faceing+=Math.PI*2;
