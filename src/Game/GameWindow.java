@@ -1,4 +1,7 @@
+package Game;
+
 import javax.swing.JFrame;
+
 
 public class GameWindow extends JFrame {
 	GameWindow(){

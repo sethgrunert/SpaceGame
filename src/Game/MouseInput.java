@@ -1,3 +1,4 @@
+package Game;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -5,8 +6,9 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 
-public class MouseInput implements MouseListener,MouseMotionListener,MouseWheelListener {
 
+public class MouseInput implements MouseListener,MouseMotionListener,MouseWheelListener {
+	static boolean mouseDown = false;
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -26,21 +28,22 @@ public class MouseInput implements MouseListener,MouseMotionListener,MouseWheelL
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mousePressed(MouseEvent e) {
+		if(e.getButton()==e.BUTTON1)
+			mouseDown = true;
 
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void mouseReleased(MouseEvent e) {
+		if(e.getButton()==e.BUTTON1)
+			mouseDown = false;
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseDragged(MouseEvent e) {
+		MainThread.mouseX=e.getX()-5;
+		MainThread.mouseY=e.getY()-25;
 	}
 
 	@Override
@@ -51,12 +54,11 @@ public class MouseInput implements MouseListener,MouseMotionListener,MouseWheelL
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(e.getWheelRotation()>0)
-			MainThread.scale*=(1+ (.001* e.getWheelRotation()));
+		if(e.getWheelRotation()<0)
+			MainThread.scale/=(1+ (-.01* e.getWheelRotation()));
 		else
-			MainThread.scale/=(1+ (-.001* e.getWheelRotation()));
+			MainThread.scale*=(1+ (.01* e.getWheelRotation()));
 		MainThread.map.changeScale(MainThread.scale);
-		System.out.println(MainThread.scale + " " + e.getWheelRotation());
 	}
 
 }

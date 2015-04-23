@@ -1,3 +1,4 @@
+package Game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,6 +9,7 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ConvolveOp;
 import java.awt.image.ImageObserver;
 import java.awt.image.Kernel;
+
 
 
 public class Map {
@@ -22,7 +24,7 @@ public class Map {
 		this.background = new BufferedImage(sizeX*tileSize,sizeY*tileSize,BufferedImage.TYPE_INT_ARGB);
 		if(background==0)
 			makeGrid();
-		 resizedImage = this.background.getScaledInstance((int)(sizeX*tileSize),(int)(sizeY*tileSize), BufferedImage.SCALE_FAST);
+		resizedImage = this.background.getScaledInstance((int)(sizeX*tileSize*MainThread.scale),(int)(sizeY*tileSize*MainThread.scale), BufferedImage.SCALE_AREA_AVERAGING);
 	}
 	public void changeScale(double scale){
 		 resizedImage = this.background.getScaledInstance((int)(sizeX*tileSize*scale),(int)(sizeY*tileSize*scale), BufferedImage.SCALE_AREA_AVERAGING);
