@@ -27,6 +27,7 @@ public class Ship {
 	private int size;
 	private double powerRemaining = 0;
 	private double healthRemaining = 0;
+	private ArrayList<HitBox> hitboxes = new ArrayList<HitBox>();
 	
 	private double mass = 0;
 	private double health = 0;
@@ -35,12 +36,21 @@ public class Ship {
 	private double powerCap = 0;
 	private double powerRate = 0;
 	
-	Ship(int size,double sizeX,double sizeY){
-		this.size = size;
-		remainingSize = size;
-		this.mass = mass;
+	Ship(int numModules,double sizeX,double sizeY,int posX, int posY){
+		this.size = numModules;
+		remainingSize = numModules;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
+		this.posX = posX;
+		this.posY = posY;
+		hitboxes.add(new HitBox((int)sizeX, 0, (int)(sizeY/3)));
+		hitboxes.add(new HitBox((int)sizeX, 0, 0));
+		hitboxes.add(new HitBox((int)sizeX, 0, (int)(-sizeY/3)));
+		hitboxes.add(new HitBox((int)(sizeX/2), 0, (int)(sizeY*2/3)));
+	}
+	
+	public ArrayList<HitBox> getHitboxes(){
+		return hitboxes;
 	}
 	
 	public void setFaceing(double theta){
@@ -91,9 +101,9 @@ public class Ship {
 		if(y==0)
 			accelY=0;
 		if(x==1)
-			accelX=accelMax/3;
+			accelX=accelMax/2;
 		if(x==-1)
-			accelX=accelMax/-3;
+			accelX=accelMax/2;
 		if(x==0)
 			accelX=0;
 	}
@@ -120,7 +130,7 @@ public class Ship {
 		return 0;
 	}
 	
-	public void move(boolean fireing){
+	public boolean move(boolean fireing){
 		velX+=accelX*Math.cos(faceing);
 		velY-=accelX*Math.sin(faceing);
 		velX+=accelY*Math.sin(faceing);
@@ -146,6 +156,7 @@ public class Ship {
 			posY=0;
 		}
 		updateModules(fireing);
+		return (healthRemaining!=0);
 	}
 	
 	private void updateModules(boolean fireing){
@@ -198,17 +209,26 @@ public class Ship {
 		g2d.fillArc((int)((posX*MainThread.scale-MainThread.viewX)-40),(int)((posY*MainThread.scale-MainThread.viewY)-40), 80, 80, 180, (int)(-180*healthRemaining/health));
 		g2d.setColor(Color.BLACK);
 		g2d.drawString((int)healthRemaining+ " / " + (int)health, (int)((posX*MainThread.scale-MainThread.viewX)),(int)((posY*MainThread.scale-MainThread.viewY)-50));
-		g2d.drawString((int)powerRemaining+ " / " + (int)powerCap, (int)((posX*MainThread.scale-MainThread.viewX)),(int)((posY*MainThread.scale-MainThread.viewY)+62));
+		g2d.drawString(Math.round(powerRemaining)+ " / " + (int)powerCap, (int)((posX*MainThread.scale-MainThread.viewX)),(int)((posY*MainThread.scale-MainThread.viewY)+62));
 		for(int i=0; i<modules.size(); i++){
 			modules.get(i).draw(g2d);
 		}
 		g2d.setColor(Color.BLACK);
 		g2d.fill(path);
-		g2d.setColor(Color.BLUE);
-		g2d.drawLine((int)((posX*MainThread.scale-MainThread.viewX)),(int)((posY*MainThread.scale-MainThread.viewY)), MainThread.mouseX, MainThread.mouseY);
-		g2d.setColor(Color.ORANGE);
-		g2d.setStroke ( new BasicStroke ( 5.0f, BasicStroke.JOIN_BEVEL, BasicStroke.JOIN_MITER ) );
-		g2d.drawLine((int)((posX*MainThread.scale-MainThread.viewX)),(int)((posY*MainThread.scale-MainThread.viewY)), (int)(velX*10+(posX*MainThread.scale-MainThread.viewX)),(int)(velY*-10+(posY*MainThread.scale-MainThread.viewY)));
+	}
+	
+	public void drawHitboxes(Graphics2D g2d){
+		for(int i=0; i<hitboxes.size(); i++){
+			hitboxes.get(i).draw(g2d, posX, posY, getFaceing());
+		}
+	}
+	
+	public double getVelX(){
+		return velX;
+	}
+	
+	public double getVelY(){
+		return velY;
 	}
 	
 	public static double getAngle(double x1, double y1, double x2, double y2){

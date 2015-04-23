@@ -10,7 +10,7 @@ public class RailGun extends Weapon{
 		fireRate = 1000*Math.sqrt(size);
 		damage = 3.5*size;
 		burstPower =1*size;
-		particle = new RailGunParticle(size,0,0,0);
+		particle = new RailGunParticle(size,0,0,0,damage);
 	}
 
 }
