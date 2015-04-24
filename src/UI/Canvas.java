@@ -1,4 +1,4 @@
-package Game;
+package UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import Game.MainThread;
 
 public class Canvas extends JPanel {
 	
@@ -24,7 +26,7 @@ public class Canvas extends JPanel {
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.setColor(Color.BLACK);
-		MainThread.map.draw((int)MainThread.viewX, (int)MainThread.viewY, g2d);
+		MainThread.map.draw((int)MainThread.view.getX(), (int)MainThread.view.getY(), g2d);
 		MainThread.playerShip.draw(g2d);
 		for(int i=0; i<MainThread.enemies.size(); i++){
 			MainThread.enemies.get(i).draw(g2d);
@@ -33,11 +35,13 @@ public class Canvas extends JPanel {
 		MainThread.playerShip.drawHitboxes(g2d);
 		repaint();
 	}
+	
 	public void drawDebug(Graphics2D g2d){
 		g2d.setColor(Color.BLUE);
-		g2d.drawLine((int)((MainThread.playerShip.getPosX()*MainThread.scale-MainThread.viewX)),(int)((MainThread.playerShip.getPosY()*MainThread.scale-MainThread.viewY)), MainThread.mouseX, MainThread.mouseY);
+		g2d.drawLine((int)MainThread.playerShip.getPos().screenX(),(int)MainThread.playerShip.getPos().screenY(), (int)MouseInput.mousePos.getX(), (int)MouseInput.mousePos.getY());
 		g2d.setColor(Color.ORANGE);
 		g2d.setStroke ( new BasicStroke ( 5.0f, BasicStroke.JOIN_BEVEL, BasicStroke.JOIN_MITER ) );
-		g2d.drawLine((int)((MainThread.playerShip.getPosX()*MainThread.scale-MainThread.viewX)),(int)((MainThread.playerShip.getPosY()*MainThread.scale-MainThread.viewY)), (int)(MainThread.playerShip.getVelX()*10+(MainThread.playerShip.getPosX()*MainThread.scale-MainThread.viewX)),(int)(MainThread.playerShip.getVelY()*-10+(MainThread.playerShip.getPosY()*MainThread.scale-MainThread.viewY)));
+		g2d.drawLine((int)MainThread.playerShip.getPos().screenX(),(int)MainThread.playerShip.getPos().screenY(),
+		(int)(MainThread.playerShip.getVelX()*10+(int)MainThread.playerShip.getPos().screenX()),(int)(MainThread.playerShip.getVelY()*-10+(int)MainThread.playerShip.getPos().screenY()));
 	}
 }

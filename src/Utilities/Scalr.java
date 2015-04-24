@@ -1,4 +1,4 @@
-package Game;
+package Utilities;
 
 /**   
  * Copyright 2011 The Buzz Media, LLC

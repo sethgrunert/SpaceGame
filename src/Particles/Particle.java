@@ -43,7 +43,7 @@ public abstract class Particle {
 	public boolean checkColision(Ship s){
 		double shipX = s.getPosX();
 		double shipY = s.getPosY();
-		double shipTheta = s.getFaceing();
+		double shipTheta = s.getFacing();
 		double hitBoxX = 0, hitBoxY = 0;
 		int hitBoxRadius =0;
 		for(int i=0; i<s.getHitboxes().size(); i++){

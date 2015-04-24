@@ -1,14 +1,19 @@
-package Game;
+package UI;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import Utilities.Vec2;
+
+import Game.MainThread;
+
 
 
 public class MouseInput implements MouseListener,MouseMotionListener,MouseWheelListener {
-	static boolean mouseDown = false;
+	public static boolean mouseDown = false;
+	public static Vec2 mousePos = new Vec2(0,0);
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -42,14 +47,14 @@ public class MouseInput implements MouseListener,MouseMotionListener,MouseWheelL
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		MainThread.mouseX=e.getX()-5;
-		MainThread.mouseY=e.getY()-25;
+		mousePos.setX(e.getX()-5);
+		mousePos.setY(e.getY()-25);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		MainThread.mouseX=e.getX()-5;
-		MainThread.mouseY=e.getY()-25;
+		mousePos.setX(e.getX()-5);
+		mousePos.setY(e.getY()-25);
 	}
 
 	@Override

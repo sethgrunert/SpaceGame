@@ -1,10 +1,10 @@
-package Game;
+package UI;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
 public class KeyboardInput implements KeyListener{
-	static boolean[] pressed = new boolean[256];
+	public static boolean[] pressed = new boolean[256];
 	
 	@Override
 	public void keyPressed(KeyEvent e) {

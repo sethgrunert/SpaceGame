@@ -1,14 +1,17 @@
-package Game;
+package UI;
 
 import javax.swing.JFrame;
 
+import Game.MainThread;
+
+
 
 public class GameWindow extends JFrame {
-	GameWindow(){
+	public GameWindow(){
 		super();
 		this.setVisible(true);
 		this.setResizable(false);
-		this.setSize(800, 600);
+		this.setSize((int)MainThread.windowSize.getX(), (int)MainThread.windowSize.getY());
 		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		this.add(new Canvas());
 		addKeyListener(new KeyboardInput());

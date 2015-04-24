@@ -21,7 +21,7 @@ public class RailGunParticle extends Particle {
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(color);
-		g2d.fillOval((int)((posX*MainThread.scale-MainThread.viewX)-radius*MainThread.scale/2),(int)((posY*MainThread.scale-MainThread.viewY)-radius*MainThread.scale/2),(int)(radius*MainThread.scale),(int)(radius*MainThread.scale));
+		g2d.fillOval((int)((posX*MainThread.scale-MainThread.view.getX())-radius*MainThread.scale/2),(int)((posY*MainThread.scale-MainThread.view.getY())-radius*MainThread.scale/2),(int)(radius*MainThread.scale),(int)(radius*MainThread.scale));
 	}
 
 	@Override
