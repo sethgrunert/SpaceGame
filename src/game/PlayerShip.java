@@ -1,16 +1,16 @@
+/**
+ * 
+ */
 package game;
 
 import ui.MouseInput;
-import ai.Behavior;
 
 /**
- * AI controlled ship
  * @author Seth Grunert sethgrunert@my.ccsu.edu
  *
  */
-public class AIShip extends Ship{
-	Behavior ai = null;
-	
+public class PlayerShip extends Ship{
+
 	/**
 	 * Ship constructor
 	 * @param numModules total space for modules
@@ -18,25 +18,21 @@ public class AIShip extends Ship{
 	 * @param sizeY length of the ships sprite in pixels
 	 * @param posX initial horizontal position of ship (pixels from the origin)
 	 * @param posY initial vertical position of ship (pixels from the origin)
-	 * @param behavior AI the ship should follow
 	 */
-	AIShip(int numModules, double sizeX, double sizeY, int posX, int posY, int behavior) {
+	PlayerShip(int numModules, double sizeX, double sizeY, int posX, int posY) {
 		super(numModules, sizeX, sizeY, posX, posY);
-		ai = Behavior.getType(behavior);
+		// TODO Auto-generated constructor stub
 	}
-
-
-
 
 	/* (non-Javadoc)
 	 * @see game.Ship#takeTurn()
 	 */
 	@Override
 	public void takeTurn() {
-		ai.scan(pos);
-		setFaceing(ai.getNewFaceing(facing));
-		setAccel(ai.getAccelX(),ai.getAccelY());
+		setFaceing(MouseInput.mousePos.getAngle(pos,false));
+		setAccel(MainThread.keyboardX,MainThread.keyboardY);
 		move();
-		updateModules(ai.getFireing());
+		updateModules(MouseInput.mouseDown);
 	}
+	
 }

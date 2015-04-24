@@ -19,11 +19,11 @@ import module.Module;
  * @author Seth Grunert sethgrunert@ccsu.edu
  * 
  */
-public class Ship {
-	private Vec2 pos = null;
+public abstract class Ship {
+	protected Vec2 pos = null;
 	private Vec2 vel = new Vec2(0,0);
 	private Vec2 accel = new Vec2(0,0);
-	private double faceng = 0;
+	protected double facing = 0;
 	private double powerRemaining = 0;
 	private double healthRemaining = 0;
 	private int remainingModules =0;
@@ -37,7 +37,7 @@ public class Ship {
 	private int numModules;
 	private ArrayList<HitBox> hitboxes = new ArrayList<HitBox>();
 	private double mass = 0;
-	private double health = 0;
+	private double healthCap = 0;
 	private double damageReduction = 0;
 	private double thrust = 0;
 	private double powerCap = 0;
@@ -76,32 +76,32 @@ public class Ship {
 	 */
 	public void setFaceing(double theta){
 		boolean clockwise = true;
-		if(faceng<Math.PI){
-			if(theta<faceng)
+		if(facing<Math.PI){
+			if(theta<facing)
 				clockwise = false;
-			if(theta>faceng+Math.PI)
+			if(theta>facing+Math.PI)
 				clockwise = false;
 		}
 		else{
-			if(theta<=faceng)
+			if(theta<=facing)
 				clockwise = false;
-			if(theta<(faceng-Math.PI))
+			if(theta<(facing-Math.PI))
 				clockwise = true;
 		}
 		double spin = rotationSpeed;
-		if(Math.abs(faceng-theta)<rotationSpeed)
-			spin = Math.abs(faceng-theta);
+		if(Math.abs(facing-theta)<rotationSpeed)
+			spin = Math.abs(facing-theta);
 		
 		
 		if(clockwise)
-			faceng+=spin;
+			facing+=spin;
 		else
-			faceng-=spin;
+			facing-=spin;
 		
-		if(faceng<0)
-			faceng+=Math.PI*2;
+		if(facing<0)
+			facing+=Math.PI*2;
 		else
-			faceng=faceng%(Math.PI*2);
+			facing=facing%(Math.PI*2);
 		
 	}
 	
@@ -109,7 +109,7 @@ public class Ship {
 	 * @return facing of the ship in radians
 	 */
 	public double getFacing(){
-		return Math.PI-faceng;
+		return Math.PI-facing;
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class Ship {
 	 * @param x x-control axis
 	 * @param y y-control axis
 	 */
-	public void setAccel(int x, int y){
+	protected void setAccel(int x, int y){
 		if(y==1)
 			accel.setY(accelMax);
 		if(y==-1)
@@ -162,8 +162,8 @@ public class Ship {
 			modules.add(newMod);
 			remainingModules-=newMod.getSize();
 			mass+=newMod.getMass();
-			health+=newMod.getHealth();
-			healthRemaining=health;
+			healthCap+=newMod.getHealth();
+			healthRemaining=healthCap;
 			damageReduction+=newMod.getDamageReduction();
 			thrust+=newMod.getThrust();
 			powerCap+=newMod.getPowerCap();
@@ -174,18 +174,20 @@ public class Ship {
 		}
 	}
 	
-	public void takeTurn(){
-		
-	}
+	/**
+	 * Master Method
+	 * Calls all other methods every frame
+	 */
+	public abstract void takeTurn();
 	
 	/**
 	 * Moves the ship one frame(1/60s) forward
 	 * @param fireing true if the ship should attempt to fire weapons
 	 * @return true if ship is dead, false if ship still has health left
 	 */
-	public boolean move(boolean fireing){
-		vel.setX(vel.getX()+accel.getX()*Math.cos(faceng)+accel.getY()*Math.sin(faceng));
-		vel.setY(vel.getY()+accel.getX()*Math.sin(faceng)+accel.getY()*Math.cos(faceng));
+	protected void move(){
+		vel.setX(vel.getX()+accel.getX()*Math.cos(facing)+accel.getY()*Math.sin(facing));
+		vel.setY(vel.getY()+accel.getX()*Math.sin(facing)+accel.getY()*Math.cos(facing));
 		vel.setX(vel.getX()*.99);
 		vel.setY(vel.getY()*.99);
 		if(Math.abs(vel.getX())<(accelMax/10))
@@ -203,16 +205,13 @@ public class Ship {
 			pos.setY(MainThread.map.getSizeY()*MainThread.map.getTileSize());
 		if(pos.getY()<0)
 			pos.setY(0);
-		
-		updateModules(fireing);
-		return (healthRemaining!=0);
 	}
 	
 	/**
 	 * called from the move method, updates all modules one frame(1/60s) forward
 	 * @param fireing true if the ship should attempt to fire weapons
 	 */
-	private void updateModules(boolean fireing){
+	protected void updateModules(boolean fireing){
 		for(int i=0; i<modules.size(); i++){
 			powerRemaining+=modules.get(i).update(getFacing(), pos.getX(), pos.getY(),fireing,powerRemaining);
 			if(powerRemaining>powerCap)
@@ -265,7 +264,7 @@ public class Ship {
 	 * @param g2d Graphics to draw to
 	 */
 	public void draw(Graphics2D g2d){
-		double f=faceng;
+		double f=facing;
 		AffineTransform t = new AffineTransform();
 		path = new Path2D.Double();
 		Rectangle r = new Rectangle((int)(pos.getX()-size.getX()/2),(int)(pos.getY()-size.getY()/2),(int)size.getX(),(int)size.getY());
@@ -287,11 +286,11 @@ public class Ship {
 		g2d.fillArc((int)pos.screenX()-50,(int)pos.screenY()-50, 100, 100, 180, (int)(-180*shieldRemaining/shieldCap));
 		//hp bar
 		g2d.setColor(new Color(0,128,0,128));
-		g2d.fillArc((int)pos.screenX()-40,(int)pos.screenY()-40, 80, 80, 180, (int)(-180*healthRemaining/health));
+		g2d.fillArc((int)pos.screenX()-40,(int)pos.screenY()-40, 80, 80, 180, (int)(-180*healthRemaining/healthCap));
 		
 		
 		g2d.setColor(Color.BLACK);
-		g2d.drawString((int)healthRemaining+ "(" +(int)shieldRemaining + ") / " + (int)(health+shieldCap), (int)pos.screenX(),(int)pos.screenY()-50);
+		g2d.drawString((int)healthRemaining+ "(" +(int)shieldRemaining + ") / " + (int)(healthCap+shieldCap), (int)pos.screenX(),(int)pos.screenY()-50);
 		g2d.drawString(Math.round(powerRemaining)+ " / " + (int)powerCap, (int)pos.screenX(),(int)pos.screenY()+62);
 		for(int i=0; i<modules.size(); i++){
 			modules.get(i).draw(g2d);
@@ -341,5 +340,9 @@ public class Ship {
 		if(y1>=y2)
 			theta+=Math.PI;
 		return (theta+Math.PI*2)%(Math.PI*2);
+	}
+	
+	public boolean isDead(){
+		return(healthRemaining==0);
 	}
 }

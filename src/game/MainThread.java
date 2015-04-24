@@ -3,6 +3,8 @@ package game;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import ai.Behavior;
+
 import exception.OutOfPowerException;
 import exception.OutOfRoomException;
 
@@ -22,14 +24,14 @@ import module.weapon.*;
  *
  */
 public class MainThread implements Runnable{
-	private static int keyboardX = 0, keyboardY=0;
+	public static int keyboardX = 0, keyboardY=0;
 	public static Vec2 windowSize = new Vec2(1000,800);
 	public static double boundingBox=.5; 
 	public static Vec2 view = new Vec2(0,0);
 	public static double scale =.5;
 	public static Map map = new Map(100,100,50,Map.GRID);
 	public static int frame = 0;
-	public static Ship playerShip = new Ship(12,50,100,map.getSizeX()*map.getTileSize()/8,map.getSizeY()*map.getTileSize()/8);
+	public static Ship playerShip = new PlayerShip(12,50,100,map.getSizeX()*map.getTileSize()/8,map.getSizeY()*map.getTileSize()/8);
 	public static ArrayList<Ship> enemies = new ArrayList<Ship>();
 
 	public static void main(String[] args) 
@@ -43,7 +45,7 @@ public class MainThread implements Runnable{
 	@Override
 	public void run() {
 		GameWindow window = new GameWindow();
-		enemies.add(new Ship(12,50,100,100,100));
+		enemies.add(new AIShip(12,50,100,100,100,Behavior.TURRET));
 		try {
 			try {
 				playerShip.addModule(new BasicLaser(1,-19,25,Math.PI/50));
@@ -55,7 +57,8 @@ public class MainThread implements Runnable{
 				playerShip.addModule(new SteelArmor(2));
 				enemies.get(0).addModule(new SteelArmor(4));
 				enemies.get(0).addModule(new NuclearReactor(4));
-				enemies.get(0).addModule(new BasicEngine(4));
+				enemies.get(0).addModule(new BasicEngine(2));
+				enemies.get(0).addModule(new BasicLaser(2,0,50,0));
 			} catch (OutOfRoomException e) {
 				System.out.println("not enough room for this module");
 			} catch (OutOfPowerException e) {
@@ -72,14 +75,18 @@ public class MainThread implements Runnable{
 					keyboardY+=1;
 				if(KeyboardInput.pressed[KeyEvent.VK_S])
 					keyboardY-=1;
-				playerShip.setFaceing(MouseInput.mousePos.getAngle(playerShip.getPos(),false));
-				playerShip.setAccel(keyboardX, keyboardY);
-				if(!playerShip.move(MouseInput.mouseDown))
-					playerShip =null;
+				
+				if(playerShip!=null)
+					playerShip.takeTurn();
+				if(playerShip.isDead())
+					playerShip=null;
+				
 				for(int i=0; i<enemies.size(); i++){
-					if(!enemies.get(i).move(false))
+					enemies.get(i).takeTurn();
+					if(enemies.get(i).isDead())
 						enemies.remove(i);
 				}
+				
 				
 				//scrolling
 				if(playerShip.getPosX()>((.5+boundingBox/2)*windowSize.getX()+view.getX())/scale)
