@@ -13,7 +13,7 @@ import game.Ship;
  */
 public class TurretBehavior extends Behavior {
 	Ship target = null;
-	int range = 1000;
+	int range = 2000;
 	Vec2 currentLocation = null;
 	double currentFacing = 0;
 	/* (non-Javadoc)

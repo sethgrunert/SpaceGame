@@ -3,16 +3,14 @@ package game;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import ai.Behavior;
 
+import ai.Behavior;
 import exception.OutOfPowerException;
 import exception.OutOfRoomException;
-
 import ui.GameWindow;
 import ui.KeyboardInput;
 import ui.MouseInput;
 import utility.Vec2;
-
 import module.*;
 import module.armor.SteelArmor;
 import module.engine.BasicEngine;
@@ -45,7 +43,8 @@ public class MainThread implements Runnable{
 	@Override
 	public void run() {
 		GameWindow window = new GameWindow();
-		enemies.add(new AIShip(12,50,100,100,100,Behavior.TURRET));
+		enemies.add(new AIShip(12,50,100,100,100,Behavior.CHASE));
+		enemies.add(new AIShip(100,200,400,1000,100,Behavior.CHASE));
 		try {
 			try {
 				playerShip.addModule(new BasicLaser(1,-19,25,Math.PI/50));
@@ -55,10 +54,24 @@ public class MainThread implements Runnable{
 				playerShip.addModule(new BasicEngine(2));
 				playerShip.addModule(new BasicEngine(2));
 				playerShip.addModule(new SteelArmor(2));
-				enemies.get(0).addModule(new SteelArmor(4));
-				enemies.get(0).addModule(new NuclearReactor(4));
+				enemies.get(0).addModule(new NuclearReactor(2));
 				enemies.get(0).addModule(new BasicEngine(2));
-				enemies.get(0).addModule(new BasicLaser(2,0,50,0));
+				enemies.get(0).addModule(new BasicEngine(2));
+				enemies.get(0).addModule(new BasicEngine(2));
+				enemies.get(0).addModule(new BasicLaser(1,-10,50,0));
+				enemies.get(0).addModule(new BasicLaser(1,10,50,0));
+				enemies.get(1).addModule(new NuclearReactor(20));
+				enemies.get(1).addModule(new BasicEngine(10));
+				enemies.get(1).addModule(new BasicEngine(10));
+				enemies.get(1).addModule(new SteelArmor(20));
+				enemies.get(1).addModule(new RailGun(10,-50,250,0));
+				enemies.get(1).addModule(new RailGun(10,50,250,0));
+				enemies.get(1).addModule(new RailGun(10,50,250,0));
+				enemies.get(1).addModule(new BasicLaser(1,0,250,0));
+				enemies.get(1).addModule(new BasicLaser(2,0,250,-Math.PI/25));
+				enemies.get(1).addModule(new BasicLaser(1,0,250,-Math.PI/10));
+				enemies.get(1).addModule(new BasicLaser(2,0,250,Math.PI/25));
+				enemies.get(1).addModule(new BasicLaser(1,0,250,-Math.PI/10));
 			} catch (OutOfRoomException e) {
 				System.out.println("not enough room for this module");
 			} catch (OutOfPowerException e) {

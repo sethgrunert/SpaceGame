@@ -85,5 +85,10 @@ public class Weapon extends Module{
 		}
 		
 	}
+	
+	public void setFaction(int faction){
+		super.setFaction(faction);
+		particle.setFaction(faction);
+	}
 
 }

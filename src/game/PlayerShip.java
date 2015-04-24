@@ -21,7 +21,7 @@ public class PlayerShip extends Ship{
 	 */
 	PlayerShip(int numModules, double sizeX, double sizeY, int posX, int posY) {
 		super(numModules, sizeX, sizeY, posX, posY);
-		// TODO Auto-generated constructor stub
+		faction = PLAYER;
 	}
 
 	/* (non-Javadoc)

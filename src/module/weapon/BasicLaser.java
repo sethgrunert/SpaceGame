@@ -10,7 +10,7 @@ public class BasicLaser extends Weapon{
 		fireRate = 250.0*Math.sqrt(size);
 		damage = 2.0*size;
 		burstPower =.25*size;
-		particle = new LaserParticle(size,0,0,0,damage);
+		particle = new LaserParticle(size,0,0,0,damage,faction);
 	}
 	
 }

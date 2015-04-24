@@ -37,6 +37,7 @@ public class Canvas extends JPanel {
 		MainThread.map.draw((int)MainThread.view.getX(), (int)MainThread.view.getY(), g2d);
 		MainThread.playerShip.draw(g2d);
 		for(int i=0; i<MainThread.enemies.size(); i++){
+			System.out.println(i);
 			MainThread.enemies.get(i).draw(g2d);
 		}
 		drawDebug(g2d);

@@ -1,3 +1,7 @@
-/Game/
-/Particles/
-/modules/
+/ai/
+/exception/
+/game/
+/module/
+/particle/
+/ui/
+/utility/

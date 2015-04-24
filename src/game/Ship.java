@@ -20,6 +20,9 @@ import module.Module;
  * 
  */
 public abstract class Ship {
+	public static final int PLAYER = 1;
+	public static final int ENEMY = 2;
+	
 	protected Vec2 pos = null;
 	private Vec2 vel = new Vec2(0,0);
 	private Vec2 accel = new Vec2(0,0);
@@ -43,6 +46,7 @@ public abstract class Ship {
 	private double powerCap = 0;
 	private double powerRate = 0;
 	private double shieldCap = 10;
+	protected int faction = -1;
 	
 	/**
 	 * Ship constructor
@@ -159,6 +163,7 @@ public abstract class Ship {
 		else if(powerRate+newMod.getPower()<0)
 			throw new OutOfPowerException();
 		else{
+			newMod.setFaction(faction);
 			modules.add(newMod);
 			remainingModules-=newMod.getSize();
 			mass+=newMod.getMass();

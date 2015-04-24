@@ -24,8 +24,8 @@ public abstract class Behavior {
 			return new PasiveBehavior();
 		case TURRET:
 			return new TurretBehavior();
-		/*case CHASE:
-			return new ChaseBehavior();*/
+		case CHASE:
+			return new ChaseBehavior();
 		default:
 			return null;
 		}

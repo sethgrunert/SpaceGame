@@ -23,6 +23,7 @@ public class AIShip extends Ship{
 	AIShip(int numModules, double sizeX, double sizeY, int posX, int posY, int behavior) {
 		super(numModules, sizeX, sizeY, posX, posY);
 		ai = Behavior.getType(behavior);
+		faction = ENEMY;
 	}
 
 

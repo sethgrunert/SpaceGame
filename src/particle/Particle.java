@@ -21,6 +21,7 @@ public abstract class Particle {
 	protected int range =0;
 	protected Color color =  null;
 	protected double damage =0;
+	protected int faction = -1;
 	
 	/**
 	 * Particle Constructor
@@ -29,11 +30,12 @@ public abstract class Particle {
 	 * @param y y component of the position
 	 * @param damage amount of damage the particle will do when it hits with something
 	 */
-	Particle(double theta, double x, double y,double damage){
+	Particle(double theta, double x, double y,double damage, int faction){
 		this.theta=theta;
 		posX=x;
 		posY=y;
 		this.damage = damage;
+		this.faction = faction;
 	}
 	
 	/**
@@ -46,8 +48,14 @@ public abstract class Particle {
 		range-=speed;
 		if(range<0)
 			return false;
-		for(int i=0; i<MainThread.enemies.size(); i++){
-			if(checkColision(MainThread.enemies.get(i)))
+		if(faction==Ship.PLAYER){
+			for(int i=0; i<MainThread.enemies.size(); i++){
+				if(checkColision(MainThread.enemies.get(i)))
+					return false;
+			}
+		}
+		if(faction==Ship.ENEMY){
+			if(checkColision(MainThread.playerShip))
 				return false;
 		}
 		return true;
@@ -74,6 +82,10 @@ public abstract class Particle {
 			}
 		}
 		return false;
+	}
+	
+	public void setFaction(int faction){
+		this.faction = faction;
 	}
 	
 	/**

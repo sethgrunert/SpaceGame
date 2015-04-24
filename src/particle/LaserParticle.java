@@ -22,8 +22,8 @@ public class LaserParticle extends Particle{
 	 * @param y y component of the position
 	 * @param damage amount of damage the particle will do when it hits with something
 	 */
-	public LaserParticle(int numModules,double theta, double x, double y, double d) {
-		super(theta, x, y, d);
+	public LaserParticle(int numModules,double theta, double x, double y, double d, int faction) {
+		super(theta, x, y, d,faction);
 		this.numModules = numModules;
 		this.color = Color.RED;
 		this.speed = (int) (15.0 / Math.sqrt(numModules));
@@ -41,7 +41,7 @@ public class LaserParticle extends Particle{
 
 	@Override
 	public Particle clone(double theta, double x, double y) {
-		return new LaserParticle(numModules,theta,x,y,damage);
+		return new LaserParticle(numModules,theta,x,y,damage,faction);
 	}
 	
 }

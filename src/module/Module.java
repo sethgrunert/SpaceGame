@@ -15,13 +15,19 @@ public abstract class Module{
 	protected double thrust = 0;
 	protected double power = 0;
 	protected double powerCap = 0;
+	protected int faction = 0;
 	
 	/**
 	 * Constructor
 	 * @param numModules amount of room in the ship the module takes up
+	 * 
 	 */
 	public Module(int numModules){
 		this.numModules = numModules;
+	}
+	
+	public void setFaction(int faction){
+		this.faction = faction;
 	}
 
 	/**
