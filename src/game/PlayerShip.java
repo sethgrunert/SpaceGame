@@ -19,8 +19,8 @@ public class PlayerShip extends Ship{
 	 * @param posX initial horizontal position of ship (pixels from the origin)
 	 * @param posY initial vertical position of ship (pixels from the origin)
 	 */
-	PlayerShip(int numModules, double sizeX, double sizeY, int posX, int posY) {
-		super(numModules, sizeX, sizeY, posX, posY);
+	public PlayerShip(int numModulesX,int numModulesY, double sizeX, double sizeY, int posX, int posY) {
+		super(numModulesX,numModulesY, sizeX, sizeY, posX, posY);
 		faction = PLAYER;
 	}
 

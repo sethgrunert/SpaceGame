@@ -38,6 +38,7 @@ public abstract class Ship {
 	private double accelMax = 0;
 	private double rotationSpeed = 0;
 	private int numModules;
+	protected int numModulesX=0,numModulesY=0;
 	private ArrayList<HitBox> hitboxes = new ArrayList<HitBox>();
 	private double mass = 0;
 	private double healthCap = 0;
@@ -56,9 +57,11 @@ public abstract class Ship {
 	 * @param posX initial horizontal position of ship (pixels from the origin)
 	 * @param posY initial vertical position of ship (pixels from the origin)
 	 */
-	Ship(int numModules,double sizeX,double sizeY,int posX, int posY){
-		this.numModules = numModules;
-		remainingModules = this.numModules;
+	Ship(int numModulesX,int numModulesY,double sizeX,double sizeY,int posX, int posY){
+		this.numModulesX = numModulesX;
+		this.numModulesY = numModulesY;
+		numModules = numModulesY*numModulesY;
+		remainingModules = numModules;
 		size = new Vec2(sizeX,sizeY);
 		pos = new Vec2(posX,posY);
 		hitboxes.add(new HitBox((int)sizeX, 0, (int)(sizeY/3)));
@@ -349,5 +352,12 @@ public abstract class Ship {
 	
 	public boolean isDead(){
 		return(healthRemaining==0);
+	}
+	
+	public int getNumModulesX(){
+		return numModulesX;
+	}
+	public int getNumModulesY(){
+		return numModulesY;
 	}
 }

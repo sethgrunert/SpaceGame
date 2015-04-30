@@ -29,7 +29,7 @@ public class MainThread implements Runnable{
 	public static double scale =.5;
 	public static Map map = new Map(100,100,50,Map.GRID);
 	public static int frame = 0;
-	public static Ship playerShip = new PlayerShip(12,50,100,map.getSizeX()*map.getTileSize()/8,map.getSizeY()*map.getTileSize()/8);
+	public static Ship playerShip = new PlayerShip(3,4,50,100,map.getSizeX()*map.getTileSize()/8,map.getSizeY()*map.getTileSize()/8);
 	public static ArrayList<Ship> enemies = new ArrayList<Ship>();
 
 	public static void main(String[] args) 
@@ -43,8 +43,8 @@ public class MainThread implements Runnable{
 	@Override
 	public void run() {
 		GameWindow window = new GameWindow();
-		enemies.add(new AIShip(12,50,100,100,100,Behavior.CHASE));
-		enemies.add(new AIShip(100,200,400,1000,100,Behavior.CHASE));
+		enemies.add(new AIShip(3,4,50,100,100,100,Behavior.CHASE));
+		//enemies.add(new AIShip(8,12,200,400,1000,100,Behavior.CHASE));
 		try {
 			try {
 				playerShip.addModule(new BasicLaser(1,-19,25,Math.PI/50));
@@ -60,7 +60,7 @@ public class MainThread implements Runnable{
 				enemies.get(0).addModule(new BasicEngine(2));
 				enemies.get(0).addModule(new BasicLaser(1,-10,50,0));
 				enemies.get(0).addModule(new BasicLaser(1,10,50,0));
-				enemies.get(1).addModule(new NuclearReactor(20));
+				/*enemies.get(1).addModule(new NuclearReactor(20));
 				enemies.get(1).addModule(new BasicEngine(10));
 				enemies.get(1).addModule(new BasicEngine(10));
 				enemies.get(1).addModule(new SteelArmor(20));
@@ -71,7 +71,7 @@ public class MainThread implements Runnable{
 				enemies.get(1).addModule(new BasicLaser(2,0,250,-Math.PI/25));
 				enemies.get(1).addModule(new BasicLaser(1,0,250,-Math.PI/10));
 				enemies.get(1).addModule(new BasicLaser(2,0,250,Math.PI/25));
-				enemies.get(1).addModule(new BasicLaser(1,0,250,-Math.PI/10));
+				enemies.get(1).addModule(new BasicLaser(1,0,250,Math.PI/10));*/
 			} catch (OutOfRoomException e) {
 				System.out.println("not enough room for this module");
 			} catch (OutOfPowerException e) {

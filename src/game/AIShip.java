@@ -20,8 +20,8 @@ public class AIShip extends Ship{
 	 * @param posY initial vertical position of ship (pixels from the origin)
 	 * @param behavior AI the ship should follow
 	 */
-	AIShip(int numModules, double sizeX, double sizeY, int posX, int posY, int behavior) {
-		super(numModules, sizeX, sizeY, posX, posY);
+	AIShip(int numModulesX, int numModulesY,double sizeX, double sizeY, int posX, int posY, int behavior) {
+		super(numModulesX,numModulesY, sizeX, sizeY, posX, posY);
 		ai = Behavior.getType(behavior);
 		faction = ENEMY;
 	}
